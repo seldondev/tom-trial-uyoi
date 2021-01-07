@@ -18,11 +18,11 @@
                     "name": "epsilon-greedy-router",
                     "children": [
                         {
-                            "name": "mock-classifier-A",
+                            "name": "mock-classifier-a",
                             "type": "MODEL"
                         },
                         {
-                            "name": "mock-classifier-B",
+                            "name": "mock-classifier-b",
                             "type": "MODEL"
                         }
                     ],
@@ -53,7 +53,7 @@
                         "spec": {
                             "containers": [
                                 {
-                                    "name": "mock-classifier-A",
+                                    "name": "mock-classifier-a",
                                     "image": "seldonio/mock_classifier:1.6.0-dev",
                                     "resources": {
                                         "limits": {
@@ -78,7 +78,7 @@
                         "spec": {
                             "containers": [
                                 {
-                                    "name": "mock-classifier-B",
+                                    "name": "mock-classifier-b",
                                     "image": "seldonio/mock_classifier:1.6.0-dev",
                                     "resources": {
                                         "limits": {
