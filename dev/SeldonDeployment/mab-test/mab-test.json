@@ -119,6 +119,22 @@
                         {
                             "name": "SELDON_ENABLE_ROUTING_INJECTION",
                             "value": "true"
+                        },
+                        {
+                            "name": "SELDON_LOG_MESSAGES_EXTERNALLY",
+                            "value": "true"
+                        },
+                        {
+                            "name": "SELDON_LOG_MESSAGE_TYPE",
+                            "value": "seldon.message.pair"
+                        },
+                        {
+                            "name": "SELDON_LOG_REQUESTS",
+                            "value": "true"
+                        },
+                        {
+                            "name": "SELDON_LOG_RESPONSES",
+                            "value": "true"
                         }
                     ]
                 }
