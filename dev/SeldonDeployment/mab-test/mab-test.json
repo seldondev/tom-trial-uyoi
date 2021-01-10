@@ -114,7 +114,14 @@
                 ],
                 "replicas": 1,
                 "engineResources": {},
-                "svcOrchSpec": {}
+                "svcOrchSpec": {
+                    "env": [
+                        {
+                            "name": "SELDON_ENABLE_ROUTING_INJECTION",
+                            "value": "true"
+                        }
+                    ]
+                }
             }
         ]
     },
