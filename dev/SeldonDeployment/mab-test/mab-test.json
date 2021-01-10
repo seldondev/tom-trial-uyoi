@@ -1,28 +1,28 @@
 {
     "kind": "SeldonDeployment",
-    "apiVersion": "machinelearning.seldon.io/v1alpha2",
+    "apiVersion": "machinelearning.seldon.io/v1",
     "metadata": {
         "name": "mab-test",
         "namespace": "dev",
         "creationTimestamp": null,
         "labels": {
-            "fluentd": "true"
+            "app": "seldon"
         }
     },
     "spec": {
-        "name": "mab-test",
+        "name": "poc-eg",
         "predictors": [
             {
-                "name": "default",
+                "name": "eg-2",
                 "graph": {
-                    "name": "epsilon-greedy-router",
+                    "name": "eg-router",
                     "children": [
                         {
-                            "name": "mock-classifier-a",
+                            "name": "rf-model",
                             "type": "MODEL"
                         },
                         {
-                            "name": "mock-classifier-b",
+                            "name": "xgb-model",
                             "type": "MODEL"
                         }
                     ],
@@ -35,13 +35,23 @@
                         },
                         {
                             "name": "epsilon",
-                            "value": "0.2",
+                            "value": "0.1",
                             "type": "FLOAT"
                         },
                         {
                             "name": "verbose",
                             "value": "1",
                             "type": "BOOL"
+                        },
+                        {
+                            "name": "branch_names",
+                            "value": "rf:xgb",
+                            "type": "STRING"
+                        },
+                        {
+                            "name": "seed",
+                            "value": "1",
+                            "type": "INT"
                         }
                     ]
                 },
@@ -53,57 +63,17 @@
                         "spec": {
                             "containers": [
                                 {
-                                    "name": "mock-classifier-a",
-                                    "image": "seldonio/mock_classifier:1.6.0-dev",
-                                    "resources": {
-                                        "limits": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        },
-                                        "requests": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        }
-                                    },
-                                    "imagePullPolicy": "IfNotPresent"
-                                }
-                            ],
-                            "terminationGracePeriodSeconds": 20
-                        }
-                    },
-                    {
-                        "metadata": {
-                            "creationTimestamp": null
-                        },
-                        "spec": {
-                            "containers": [
+                                    "name": "rf-model",
+                                    "image": "seldonio/credit_default_rf_model:0.2",
+                                    "resources": {}
+                                },
                                 {
-                                    "name": "mock-classifier-b",
-                                    "image": "seldonio/mock_classifier:1.6.0-dev",
-                                    "resources": {
-                                        "limits": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        },
-                                        "requests": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        }
-                                    },
-                                    "imagePullPolicy": "IfNotPresent"
-                                }
-                            ],
-                            "terminationGracePeriodSeconds": 20
-                        }
-                    },
-                    {
-                        "metadata": {
-                            "creationTimestamp": null
-                        },
-                        "spec": {
-                            "containers": [
+                                    "name": "xgb-model",
+                                    "image": "seldonio/credit_default_xgb_model:0.2",
+                                    "resources": {}
+                                },
                                 {
-                                    "name": "epsilon-greedy-router",
+                                    "name": "eg-router",
                                     "image": "seldonio/mab_epsilon_greedy:1.6.0-dev",
                                     "resources": {}
                                 }
@@ -113,33 +83,24 @@
                     }
                 ],
                 "replicas": 1,
+                "annotations": {
+                    "predictor_version": "v1"
+                },
                 "engineResources": {},
                 "svcOrchSpec": {
                     "env": [
                         {
                             "name": "SELDON_ENABLE_ROUTING_INJECTION",
                             "value": "true"
-                        },
-                        {
-                            "name": "SELDON_LOG_MESSAGES_EXTERNALLY",
-                            "value": "true"
-                        },
-                        {
-                            "name": "SELDON_LOG_MESSAGE_TYPE",
-                            "value": "seldon.message.pair"
-                        },
-                        {
-                            "name": "SELDON_LOG_REQUESTS",
-                            "value": "true"
-                        },
-                        {
-                            "name": "SELDON_LOG_RESPONSES",
-                            "value": "true"
                         }
                     ]
                 }
             }
-        ]
+        ],
+        "annotations": {
+            "deployment_version": "v1",
+            "project_name": "Epsilon Greedy Routing"
+        }
     },
     "status": {}
 }
