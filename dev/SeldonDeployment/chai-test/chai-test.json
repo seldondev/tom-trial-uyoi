@@ -6,6 +6,7 @@
         "namespace": "dev",
         "creationTimestamp": null,
         "labels": {
+            "app.kubernetes.io/instance": "tom-trial-uyoi-dev",
             "fluentd": "true"
         }
     },
@@ -30,7 +31,7 @@
                 "componentSpecs": [
                     {
                         "metadata": {
-                            "creationTimestamp": "2021-01-21T13:33:15Z"
+                            "creationTimestamp": "2021-01-21T13:41:08Z"
                         },
                         "spec": {
                             "containers": [
@@ -62,19 +63,6 @@
                                     ]
                                 }
                             ]
-                        },
-                        "hpaSpec": {
-                            "minReplicas": 1,
-                            "maxReplicas": 2,
-                            "metrics": [
-                                {
-                                    "type": "Resource",
-                                    "resource": {
-                                        "name": "cpu",
-                                        "targetAverageUtilization": 10
-                                    }
-                                }
-                            ]
                         }
                     }
                 ],
@@ -84,49 +72,7 @@
                     "version": "default"
                 },
                 "svcOrchSpec": {},
-                "traffic": 80
-            },
-            {
-                "name": "canary",
-                "graph": {
-                    "name": "chai-test-container",
-                    "implementation": "MLFLOW_SERVER",
-                    "modelUri": "gs://seldon-models/mlflow/elasticnet_wine",
-                    "logger": {
-                        "mode": "all"
-                    }
-                },
-                "componentSpecs": [
-                    {
-                        "metadata": {
-                            "creationTimestamp": "2021-01-21T13:41:08Z"
-                        },
-                        "spec": {
-                            "containers": [
-                                {
-                                    "name": "chai-test-container",
-                                    "resources": {
-                                        "limits": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        },
-                                        "requests": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "annotations": {
-                    "seldon.io/canary": "true"
-                },
-                "engineResources": {},
-                "svcOrchSpec": {},
-                "traffic": 20
+                "traffic": 100
             }
         ],
         "annotations": {
