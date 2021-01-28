@@ -6,6 +6,7 @@
         "namespace": "dev",
         "creationTimestamp": null,
         "labels": {
+            "app.kubernetes.io/instance": "tom-trial-uyoi-dev",
             "fluentd": "true"
         }
     },
@@ -17,12 +18,12 @@
                 "graph": {
                     "name": "bruce-test1-container",
                     "type": "MODEL",
-                    "implementation": "SKLEARN_SERVER",
+                    "implementation": "XGBOOST_SERVER",
                     "endpoint": {
                         "service_host": "localhost",
                         "service_port": 9000
                     },
-                    "modelUri": "gs://seldon-models/sklearn/iris",
+                    "modelUri": "gs://seldon-models/xgboost/iris",
                     "logger": {
                         "mode": "all"
                     }
@@ -30,13 +31,13 @@
                 "componentSpecs": [
                     {
                         "metadata": {
-                            "creationTimestamp": "2021-01-28T18:29:58Z"
+                            "creationTimestamp": "2021-01-28T18:39:12Z"
                         },
                         "spec": {
                             "containers": [
                                 {
                                     "name": "bruce-test1-container",
-                                    "image": "seldonio/sklearnserver:1.5.0",
+                                    "image": "seldonio/xgboostserver:1.5.0",
                                     "ports": [
                                         {
                                             "name": "metrics",
@@ -62,19 +63,6 @@
                                     ]
                                 }
                             ]
-                        },
-                        "hpaSpec": {
-                            "minReplicas": 1,
-                            "maxReplicas": 2,
-                            "metrics": [
-                                {
-                                    "type": "Resource",
-                                    "resource": {
-                                        "name": "cpu",
-                                        "targetAverageUtilization": 10
-                                    }
-                                }
-                            ]
                         }
                     }
                 ],
@@ -84,49 +72,7 @@
                     "version": "default"
                 },
                 "svcOrchSpec": {},
-                "traffic": 80
-            },
-            {
-                "name": "canary",
-                "graph": {
-                    "name": "bruce-test1-container",
-                    "implementation": "XGBOOST_SERVER",
-                    "modelUri": "gs://seldon-models/xgboost/iris",
-                    "logger": {
-                        "mode": "all"
-                    }
-                },
-                "componentSpecs": [
-                    {
-                        "metadata": {
-                            "creationTimestamp": "2021-01-28T18:39:12Z"
-                        },
-                        "spec": {
-                            "containers": [
-                                {
-                                    "name": "bruce-test1-container",
-                                    "resources": {
-                                        "limits": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        },
-                                        "requests": {
-                                            "cpu": "1",
-                                            "memory": "1Gi"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "annotations": {
-                    "seldon.io/canary": "true"
-                },
-                "engineResources": {},
-                "svcOrchSpec": {},
-                "traffic": 20
+                "traffic": 100
             }
         ],
         "annotations": {
